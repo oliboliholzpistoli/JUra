@@ -3,11 +3,15 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Maven Wrapper ###
+.mvn/*
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/*
 *.iws
 *.iml
 *.ipr
@@ -39,6 +43,7 @@ build/
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+
 
 # User-specific stuff
 .idea/**/workspace.xml
