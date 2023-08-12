@@ -1,6 +1,8 @@
 module com.jura.jura {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
+    requires org.json;
 
     exports com.jura.ui;
     opens com.jura.ui to javafx.fxml;

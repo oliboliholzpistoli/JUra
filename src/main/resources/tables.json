@@ -1,0 +1,8 @@
+[
+  {"Recipe": "CREATE TABLE Recipe (\n\tID int NOT NULL PRIMARY KEY AUTO_INCREMENT,\n\tTitle VARCHAR(255),\n\tDuration int,\n\tServings int\n);"},
+  {"Step": "CREATE TABLE Step (\n\tID int NOT NULL PRIMARY KEY AUTO_INCREMENT,\n\tDescription VARCHAR(2047),\n\tDuration int,\n\tRecipeID int NOT NULL,\n\tFOREIGN KEY (RecipeID) REFERENCES Recipe(ID)\n);"},
+  {"Ingredient": "CREATE TABLE Ingredient (\n\tID int NOT NULL PRIMARY KEY AUTO_INCREMENT,\n\tName VARCHAR (255)\n);"},
+  {"Ingredient_Recipe": "CREATE TABLE Ingredient_Recipe (\n\tRecipeID int NOT NULL,\n\tFOREIGN KEY (RecipeID) REFERENCES Recipe(ID),\n\tIngredientID int NOT NULL,\n\tFOREIGN KEY (IngredientID) REFERENCES Ingredient(ID),\n\tQuantity int,\n\tQuantityFlag boolean\n);"},
+  {"IngredientCategory": "CREATE TABLE IngredientCategory (\n\tID int NOT NULL PRIMARY KEY AUTO_INCREMENT,\n\tName VARCHAR (255)\n);"},
+  {"Ingredient_IngredientCategory": "CREATE TABLE Ingredient_IngredientCategory (\n\tIngredientID int NOT NULL,\n\tFOREIGN KEY (IngredientID) REFERENCES Ingredient(ID),\n\tIngredientCategoryID int NOT NULL,\n\tFOREIGN KEY (IngredientCategoryID) REFERENCES IngredientCategory(ID)\n);"}
+]
