@@ -22,6 +22,11 @@ public class Step implements DBObject{
         return null;
     }
 
+    @Override
+    public String getDeleteString() {
+        return null;
+    }
+
     public int getId() {
         return id;
     }

@@ -1,4 +1,4 @@
-module com.jura.jura {
+module com.jura {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
