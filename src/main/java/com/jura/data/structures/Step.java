@@ -1,30 +1,16 @@
 package com.jura.data.structures;
 
-public class Step implements DBObject{
+public class Step {
 
     private int id;
     private String description;
+    //Duration in minutes (for now)
     private int duration;
 
     public Step(int id, String description, int duration) {
         this.id = id;
         this.description = description;
         this.duration = duration;
-    }
-
-    @Override
-    public String getCreateString() {
-        return null;
-    }
-
-    @Override
-    public String getUpdateString() {
-        return null;
-    }
-
-    @Override
-    public String getDeleteString() {
-        return null;
     }
 
     public int getId() {

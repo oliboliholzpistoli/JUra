@@ -1,6 +1,7 @@
 package com.jura.data.structures;
 
 import com.jura.util.DBUtil;
+
 import java.util.ArrayList;
 
 public class IngredientCategory implements DBObject{
@@ -28,11 +29,33 @@ public class IngredientCategory implements DBObject{
 
     @Override
     public String getUpdateString() {
-        return null;
+        ArrayList<String> identifierDefinitions = new ArrayList<>();
+        ArrayList<String> identifierValues = new ArrayList<>();
+        ArrayList<String> fields = new ArrayList<>();
+        ArrayList<String> values = new ArrayList<>();
+
+        identifierDefinitions.add("ID");
+        identifierValues.add(Integer.toString(id));
+
+        fields.add("NAME");
+        values.add("'"+name+"'");
+
+        return DBUtil.generateUpdateString("IngredientCategory",identifierDefinitions,identifierValues,fields,values);
     }
 
     @Override
     public String getDeleteString() {
+        ArrayList<String> identifierDefinitions = new ArrayList<>();
+        ArrayList<String> identifierValues = new ArrayList<>();
+
+        identifierDefinitions.add("ID");
+        identifierValues.add(Integer.toString(id));
+
+        return DBUtil.generateDeleteString("IngredientCategory",identifierDefinitions,identifierValues);
+    }
+
+    @Override
+    public String getSelectString() {
         return null;
     }
 

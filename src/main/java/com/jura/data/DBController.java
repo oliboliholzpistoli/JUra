@@ -1,6 +1,6 @@
 package com.jura.data;
 
-import com.jura.data.structures.DBObject;
+import com.jura.data.structures.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class DBController {
     private static final String TABLES_PATH = "src/main/resources/tables.json";
@@ -65,6 +67,59 @@ public class DBController {
         } catch (FileNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /*public DBObject getObject(String type){
+        try (var con = DriverManager.getConnection(DB_URL);
+             Statement stm = con.createStatement()) {
+            stm.executeQuery(dbObject.getCreateString());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }*/
+
+    public List<Recipe> loadRecipes(){
+        ArrayList<Recipe> recipes = new ArrayList<>();
+        try (var con = DriverManager.getConnection(DB_URL);
+            Statement stm = con.createStatement()) {
+
+            //Get ingredient category list
+            ResultSet ingredientCatRS = stm.executeQuery("SELECT * FROM IngredientCategory;");
+            HashMap<Integer, IngredientCategory> ingredientCategories = new HashMap<>();
+            while (ingredientCatRS.next()){
+                ingredientCategories.put(Integer.parseInt(ingredientCatRS.getString("id")),new IngredientCategory(Integer.parseInt(ingredientCatRS.getString("id")),ingredientCatRS.getString("name")));
+            }
+
+            //Get ingredient list
+            ResultSet ingredientRS = stm.executeQuery("SELECT * FROM Ingredient;");
+            HashMap<Integer,Ingredient> ingredients = new HashMap<>();
+            while (ingredientRS.next()){
+
+            }
+
+            ResultSet recipeRS = stm.executeQuery("SELECT * FROM Recipe;");
+
+            while (recipeRS.next()){
+                ResultSet stepRS = stm.executeQuery("SELECT * FROM Step WHERE RecipeID = "+ recipeRS.getString("id") +";");
+                ArrayList<Step> steps = new ArrayList<>();
+                //Get steps per recipe
+                while (stepRS.next()){
+                    steps.add(new Step(Integer.parseInt(stepRS.getString("id")),stepRS.getString("description"),Integer.parseInt(stepRS.getString("duration"))));
+                }
+                Recipe recipe = new Recipe(Integer.parseInt(recipeRS.getString("id")),
+                        recipeRS.getString("title"),
+                        Integer.parseInt(recipeRS.getString("duration")),
+                        Integer.parseInt(recipeRS.getString("servings")),
+                        steps);
+                //Get ingredients
+                ResultSet ingredientsRS = stm.executeQuery("SELECT * FROM Ingredient;");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
     public void createObject(DBObject dbObject){

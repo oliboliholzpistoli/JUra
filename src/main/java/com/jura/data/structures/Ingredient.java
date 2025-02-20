@@ -11,10 +11,10 @@ public class Ingredient implements DBObject{
     private String name;
     private List<IngredientCategory> ingredientCategories;
 
-    public Ingredient(int id, String name, List<IngredientCategory> ingredientCategory) {
+    public Ingredient(int id, String name, List<IngredientCategory> ingredientCategories) {
         this.id = id;
         this.name = name;
-        this.ingredientCategories = ingredientCategory;
+        this.ingredientCategories = ingredientCategories;
     }
 
     @Override
@@ -30,12 +30,13 @@ public class Ingredient implements DBObject{
 
         StringBuilder out = new StringBuilder(DBUtil.generateCreateString("Ingredient",fields,values));
 
-        for (IngredientCategory ingredientCategory:ingredientCategories){
-            fields.clear();
-            values.clear();
+        fields.clear();
+        fields.add("IngredientID");
+        fields.add("IngredientCategoryID");
 
-            fields.add("IngredientID");
-            fields.add("IngredientCategoryID");
+        for (IngredientCategory ingredientCategory:ingredientCategories){
+
+            values.clear();
 
             values.add(Integer.toString(id));
             values.add(Integer.toString(ingredientCategory.getId()));
@@ -71,21 +72,19 @@ public class Ingredient implements DBObject{
         identifierDefinitions.add("IngredientID");
         identifierDefinitions.add("IngredientCategoryID");
 
+        fields.clear();
+        fields.add("IngredientID");
+        fields.add("IngredientCategoryID");
+
         for (IngredientCategory ingredientCategory:ingredientCategories){
             identifierValues.clear();
             identifierValues.add(Integer.toString(id));
             identifierValues.add(Integer.toString(ingredientCategory.getId()));
             out.append(DBUtil.generateDeleteString("Ingredient_IngredientCategory",identifierDefinitions,identifierValues));
-        }
 
-        for (IngredientCategory ingredientCategory:ingredientCategories){
-            fields.clear();
             values.clear();
             identifierDefinitions.clear();
             identifierValues.clear();
-
-            fields.add("IngredientID");
-            fields.add("IngredientCategoryID");
 
             values.add(Integer.toString(id));
             values.add(Integer.toString(ingredientCategory.getId()));
@@ -116,6 +115,11 @@ public class Ingredient implements DBObject{
             out.append(DBUtil.generateDeleteString("Ingredient_IngredientCategory",identifierDefinitions,identifierValues));
         }
         return out.toString();
+    }
+
+    @Override
+    public String getSelectString() {
+        return null;
     }
 
     public int getId() {
