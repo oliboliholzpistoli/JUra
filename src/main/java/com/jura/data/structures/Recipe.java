@@ -3,6 +3,7 @@ package com.jura.data.structures;
 import com.jura.util.DBUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ public class Recipe implements DBObject {
         this.duration = duration;
         this.servings = servings;
         this.steps = steps;
+        this.ingredients = new HashMap<>();
     }
 
     @Override

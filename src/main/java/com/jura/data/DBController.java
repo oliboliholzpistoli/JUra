@@ -1,16 +1,14 @@
 package com.jura.data;
 
 import com.jura.data.structures.*;
+import org.h2.command.Prepared;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -126,6 +124,18 @@ public class DBController {
         try (var con = DriverManager.getConnection(DB_URL);
              Statement stm = con.createStatement()) {
             stm.executeUpdate(dbObject.getCreateString());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int createObjectIDReturn(DBObject dbObject){
+        ResultSet generatedKeys;
+        try (var con = DriverManager.getConnection(DB_URL)){
+             PreparedStatement stm = con.prepareStatement(dbObject.getCreateString(),Statement.RETURN_GENERATED_KEYS);
+             stm.executeUpdate();
+             generatedKeys = stm.getGeneratedKeys();
+             return generatedKeys.getInt(1);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

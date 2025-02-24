@@ -3,6 +3,7 @@ module com.jura {
     requires javafx.fxml;
     requires java.sql;
     requires org.json;
+    requires com.h2database;
 
     exports com.jura.ui;
     opens com.jura.ui to javafx.fxml;
