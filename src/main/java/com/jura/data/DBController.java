@@ -1,7 +1,6 @@
 package com.jura.data;
 
 import com.jura.data.structures.*;
-import org.h2.command.Prepared;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -67,16 +66,6 @@ public class DBController {
         }
     }
 
-    /*public DBObject getObject(String type){
-        try (var con = DriverManager.getConnection(DB_URL);
-             Statement stm = con.createStatement()) {
-            stm.executeQuery(dbObject.getCreateString());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }*/
-
     public List<Recipe> loadRecipes(){
         ArrayList<Recipe> recipes = new ArrayList<>();
         try (var con = DriverManager.getConnection(DB_URL);
@@ -120,7 +109,7 @@ public class DBController {
         return null;
     }
 
-    public void createObject(DBObject dbObject){
+    public void createObjectVoid(DBObject dbObject){
         try (var con = DriverManager.getConnection(DB_URL);
              Statement stm = con.createStatement()) {
             stm.executeUpdate(dbObject.getCreateString());
@@ -129,14 +118,15 @@ public class DBController {
         }
     }
 
-    public int createObjectIDReturn(DBObject dbObject){
+    public DBObject createObject(DBObject dbObject){
         ResultSet generatedKeys;
         try (var con = DriverManager.getConnection(DB_URL)){
              PreparedStatement stm = con.prepareStatement(dbObject.getCreateString(),Statement.RETURN_GENERATED_KEYS);
              stm.executeUpdate();
              generatedKeys = stm.getGeneratedKeys();
              generatedKeys.next();
-             return generatedKeys.getInt(1);
+             dbObject.setId(generatedKeys.getInt(1));
+             return dbObject;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
