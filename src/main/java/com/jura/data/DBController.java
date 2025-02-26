@@ -135,6 +135,7 @@ public class DBController {
              PreparedStatement stm = con.prepareStatement(dbObject.getCreateString(),Statement.RETURN_GENERATED_KEYS);
              stm.executeUpdate();
              generatedKeys = stm.getGeneratedKeys();
+             generatedKeys.next();
              return generatedKeys.getInt(1);
         } catch (SQLException e) {
             throw new RuntimeException(e);
