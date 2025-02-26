@@ -38,44 +38,7 @@ public class Recipe implements DBObject {
         values.add(Integer.toString(duration));
         values.add(Integer.toString(servings));
 
-        StringBuilder out = new StringBuilder(DBUtil.generateCreateString("Recipe",fields,values));
-
-        fields.clear();
-
-        fields.add("DESCRIPTION");
-        fields.add("DURATION");
-        fields.add("RECIPEID");
-
-        for (Step step:steps){
-            values.clear();
-
-            values.add("'"+step.getDescription()+"'");
-            values.add(Integer.toString(step.getDuration()));
-            values.add(Integer.toString(id));
-
-            out.append(DBUtil.generateCreateString("Step",fields,values));
-        }
-
-        fields.clear();
-
-        fields.add("RecipeId");
-        fields.add("IngredientId");
-        fields.add("Quantity");
-        fields.add("QuantityFlag");
-
-        for (Map.Entry<Ingredient,int[]> ingredient:ingredients.entrySet()){
-
-            values.clear();
-
-            values.add(Integer.toString(id));
-            values.add(Integer.toString(ingredient.getKey().getId()));
-            values.add(Integer.toString(ingredient.getValue()[0]));
-            values.add(Integer.toString(ingredient.getValue()[1]));
-
-            out.append(DBUtil.generateCreateString("Ingredient_Recipe",fields,values));
-        }
-
-        return out.toString();
+        return DBUtil.generateCreateString("Recipe",fields,values);
     }
 
     @Override
