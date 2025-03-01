@@ -3,6 +3,7 @@ package com.jura.data.structures;
 import com.jura.util.DBUtil;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class IngredientCategory implements DBObject{
 
@@ -74,5 +75,12 @@ public class IngredientCategory implements DBObject{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        IngredientCategory that = (IngredientCategory) o;
+        return id == that.id;
     }
 }

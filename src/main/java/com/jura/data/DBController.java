@@ -109,10 +109,10 @@ public class DBController {
         return null;
     }
 
-    public void createObjectVoid(DBObject dbObject){
+    public void createObjectString(String dbString){
         try (var con = DriverManager.getConnection(DB_URL);
              Statement stm = con.createStatement()) {
-            stm.executeUpdate(dbObject.getCreateString());
+            stm.executeUpdate(dbString);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

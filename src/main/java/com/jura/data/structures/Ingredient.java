@@ -4,6 +4,7 @@ import com.jura.util.DBUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Ingredient implements DBObject{
 
@@ -28,23 +29,7 @@ public class Ingredient implements DBObject{
         values.add(Integer.toString(id));
         values.add("'"+name+"'");
 
-        StringBuilder out = new StringBuilder(DBUtil.generateCreateString("Ingredient",fields,values));
-
-        fields.clear();
-        fields.add("IngredientID");
-        fields.add("IngredientCategoryID");
-
-        for (IngredientCategory ingredientCategory:ingredientCategories){
-
-            values.clear();
-
-            values.add(Integer.toString(id));
-            values.add(Integer.toString(ingredientCategory.getId()));
-
-            out.append(DBUtil.generateCreateString("Ingredient_IngredientCategory",fields,values));
-        }
-
-        return out.toString();
+        return DBUtil.generateCreateString("Ingredient",fields,values);
     }
 
     @Override
@@ -122,6 +107,22 @@ public class Ingredient implements DBObject{
         return null;
     }
 
+    public String getCreateIngredientCategoryString(IngredientCategory ingredientCategory) {
+        if(ingredientCategories.contains(ingredientCategory)) {
+            ArrayList<String> fields = new ArrayList<>();
+            ArrayList<String> values = new ArrayList<>();
+
+            fields.add("INGREDIENTID");
+            fields.add("INGREDIENTCATEGORYID");
+
+            values.add(Integer.toString(id));
+            values.add(Integer.toString(ingredientCategory.getId()));
+
+            return DBUtil.generateCreateString("Ingredient", fields, values);
+        }
+        return "";
+    }
+
     public int getId() {
         return id;
     }
@@ -145,5 +146,12 @@ public class Ingredient implements DBObject{
 
     public void setIngredientCategory(ArrayList<IngredientCategory> ingredientCategory) {
         this.ingredientCategories = ingredientCategory;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient that = (Ingredient) o;
+        return id == that.id;
     }
 }

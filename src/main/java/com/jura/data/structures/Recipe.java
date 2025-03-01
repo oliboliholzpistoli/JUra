@@ -169,6 +169,26 @@ public class Recipe implements DBObject {
         return null;
     }
 
+    public String getCreateIngredientRelationshipString(Ingredient ingredient){
+        if (ingredients.containsKey(ingredient)){
+            ArrayList<String> fields = new ArrayList<>();
+            ArrayList<String> values = new ArrayList<>();
+
+            fields.add("RECIPEID");
+            fields.add("INGREDIENTID");
+            fields.add("QUANTITY");
+            fields.add("QUANTITYFLAG");
+
+            values.add(Integer.toString(id));
+            values.add(Integer.toString(ingredient.getId()));
+            values.add(Integer.toString(ingredients.get(ingredient)[0]));
+            values.add(Integer.toString(ingredients.get(ingredient)[1]));
+
+            return DBUtil.generateCreateString("Ingredient_Recipe",fields,values);
+        }
+        return "";
+    }
+
     public int getId() {
         return id;
     }

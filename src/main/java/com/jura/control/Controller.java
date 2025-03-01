@@ -2,6 +2,7 @@ package com.jura.control;
 
 import com.jura.data.DBController;
 import com.jura.data.structures.Ingredient;
+import com.jura.data.structures.IngredientCategory;
 import com.jura.data.structures.Recipe;
 import com.jura.data.structures.Step;
 
@@ -38,6 +39,21 @@ public class Controller {
         for (Step step:recipe.getSteps()){
             step.setRecipeID(recipe.getId());
             dbController.createObject(step);
+        }
+
+        //Create ingredients
+        for (Object[] ingredientObj:ingredients){
+            Ingredient ingredient = (Ingredient) ingredientObj[0];
+            if (ingredient.getId() != -1){
+                ingredient = (Ingredient) dbController.createObject(ingredient);
+                for (IngredientCategory ingredientCategory:ingredient.getIngredientCategory()){
+                    if (ingredientCategory.getId() != -1) {
+                        ingredientCategory = (IngredientCategory) dbController.createObject(ingredientCategory);
+                    }
+                    dbController.createObjectString(ingredient.getCreateIngredientCategoryString(ingredientCategory));
+                }
+            }
+            dbController.createObjectString(recipe.getCreateIngredientRelationshipString(ingredient));
         }
     }
 }
